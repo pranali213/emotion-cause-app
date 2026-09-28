@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% block title %}Conversations — ECPE AI Lab{% endblock %}
+{% block topbar_title %}Conversations{% endblock %}
+{% block topbar_actions %}
+  <button class="btn btn-primary" id="btnNewConv">＋ New Conversation</button>
+  <button class="btn btn-ghost"   id="btnLoadSamples" title="Load sample conversations">📂 Load Samples</button>
+{% endblock %}
+
+{% block content %}
+
+<!-- ── KPI Strip ──────────────────────────────────────────────── -->
+<div class="kpi-strip">
+  <div class="kpi-card">
+    <div class="kpi-icon" style="background:rgba(99,102,241,.15);color:#818cf8">💬</div>
+    <div class="kpi-body">
+      <div class="kpi-num">{{ conversations|length }}</div>
+      <div class="kpi-label">Conversations</div>
+    </div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-icon" style="background:rgba(16,185,129,.15);color:#34d399">🔗</div>
+    <div class="kpi-body">
+      <div class="kpi-num">{{ total_pairs }}</div>
+      <div class="kpi-label">EC Pairs Found</div>
+    </div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-icon" style="background:rgba(245,158,11,.15);color:#fbbf24">🗣️</div>
+    <div class="kpi-body">
+      <div class="kpi-num">{{ total_utts }}</div>
+      <div class="kpi-label">Utterances</div>
+    </div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-icon" style="background:rgba(239,68,68,.15);color:#f87171">🤖</div>
+    <div class="kpi-body">
+      <div class="kpi-num">4</div>
+      <div class="kpi-label">ML Models</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Hero ──────────────────────────────────────────────────── -->
+<div class="hero-banner">
+  <div class="hero-text">
+    <h1 class="hero-title">AI-Powered Emotion &amp; Cause Detection</h1>
+    <p class="hero-sub">Enter any multi-turn conversation. Our ML pipeline — Logistic Regression, SVM, Naive Bayes, Random Forest — detects emotions turn-by-turn and traces which prior utterance caused each emotional reaction.</p>
+    <div class="hero-algo-badges">
+      <span class="algo-badge lr">Logistic Regression</span>
+      <span class="algo-badge svm">SVM</span>
+      <span class="algo-badge nb">Naive Bayes</span>
+      <span class="algo-badge rf">Random Forest</span>
+    </div>
+  </div>
+  <div class="hero-emo-wheel">
+    {% for name, meta in emotion_meta.items() %}
+    {% if name != 'neutral' %}
+    <div class="emo-wheel-item" data-color="{{ meta.color }}">
+      <span class="emo-wheel-icon">{{ meta.icon }}</span>
+      <span class="emo-wheel-label">{{ name|capitalize }}</span>
+    </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<!-- ── Quick Predict ─────────────────────────────────────────── -->
+<div class="card mb-5">
+  <div class="card-header">
+    <h2 class="card-title">⚡ Quick Emotion Predict</h2>
+    <p class="card-subtitle">Type a sentence — all four models classify it simultaneously.</p>
+  </div>
+  <div class="card-body">
+    <div class="quick-predict-row">
+      <textarea id="qpText" class="input textarea" rows="2" placeholder="e.g. I am so furious because you lied to me!"></textarea>
+      <button class="btn btn-primary" id="qpBtn">Predict</button>
+    </div>
+    <div id="qpResults" class="qp-results hidden"></div>
+  </div>
+</div>
+
+<!-- ── Quick Analyse ─────────────────────────────────────────── -->
+<div class="card mb-5">
+  <div class="card-header">
+    <h2 class="card-title">🔍 Quick Analyse Conversation</h2>
+    <p class="card-subtitle">Analyse without saving to the database.</p>
+  </div>
+  <div class="card-body">
+    <div id="qaList" class="qa-list"></div>
+    <div class="qa-add-row">
+      <input  id="qaSpeaker" class="input" style="max-width:130px" placeholder="Speaker" value="Alice"/>
+      <textarea id="qaText"  class="input textarea" rows="2" placeholder="Utterance text…"></textarea>
+      <select id="qaModel" class="input" style="max-width:180px">
+        <option value="Random Forest">Random Forest</option>
+        <option value="Logistic Regression">Logistic Regression</option>
+        <option value="SVM">SVM</option>
+        <option value="Naive Bayes">Naive Bayes</option>
+      </select>
+      <button class="btn btn-secondary" id="qaAddBtn">＋ Add</button>
+    </div>
+    <div class="btn-row mt-4">
+      <button class="btn btn-primary" id="qaAnalyseBtn">🤖 Run Analysis</button>
+      <button class="btn btn-ghost"   id="qaClearBtn">Clear</button>
+    </div>
+    <div id="qaResults" class="qa-results hidden"></div>
+  </div>
+</div>
+
+<!-- ── Saved Conversations ───────────────────────────────────── -->
+<div class="section-header">
+  <h2 class="section-title">Saved Conversations</h2>
+  <input id="searchConv" class="input search-input" placeholder="🔎 Search…"/>
+</div>
+
+{% if conversations %}
+<div class="conv-grid" id="convGrid">
+  {% for c in conversations %}
+  <div class="conv-card" data-id="{{ c.id }}" data-title="{{ c.title }}">
+    <div class="conv-card-top">
+      <div class="conv-card-icon">💬</div>
+      <div class="conv-card-title" title="{{ c.title }}">{{ c.title }}</div>
+      <button class="icon-btn danger del-conv-btn" data-id="{{ c.id }}">🗑</button>
+    </div>
+    <div class="conv-card-meta">Updated {{ c.updated_at[:10] }}</div>
+    <a href="{{ url_for('conversation_view', conv_id=c.id) }}" class="btn btn-primary btn-sm mt-3 w-full">Open →</a>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state" id="emptyState">
+  <div class="empty-icon">💬</div>
+  <p class="empty-text">No conversations yet — create one or load the sample data.</p>
+  <div class="btn-row" style="justify-content:center;margin-top:16px">
+    <button class="btn btn-primary" id="emptyNewBtn">＋ New Conversation</button>
+    <button class="btn btn-secondary" id="emptyLoadBtn">📂 Load Samples</button>
+  </div>
+</div>
+{% endif %}
+
+<!-- ── New Conversation Modal ────────────────────────────────── -->
+<div class="modal-overlay hidden" id="modalNewConv">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>New Conversation</h3>
+      <button class="icon-btn" id="closeModalNewConv">✕</button>
+    </div>
+    <div class="modal-body">
+      <label class="label">Title</label>
+      <input id="newConvTitle" class="input" placeholder="e.g. Customer Support Chat #1"/>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost"   id="cancelNewConv">Cancel</button>
+      <button class="btn btn-primary" id="confirmNewConv">Create &amp; Open</button>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+{% endblock %}

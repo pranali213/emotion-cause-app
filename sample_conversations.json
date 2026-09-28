@@ -1,0 +1,118 @@
+[
+  {
+    "title": "Job Promotion Reaction",
+    "utterances": [
+      {"speaker":"Manager","text":"I have some great news for you today. You have been selected for the senior developer position."},
+      {"speaker":"Alice",  "text":"Are you serious? I have been waiting and working towards this for over two years!"},
+      {"speaker":"Manager","text":"Yes absolutely. Your performance this quarter was truly outstanding and the team noticed."},
+      {"speaker":"Alice",  "text":"I am so thrilled and deeply grateful. This opportunity means everything to me!"},
+      {"speaker":"Manager","text":"However, the role does require you to relocate to another city within three months."},
+      {"speaker":"Alice",  "text":"Oh... I did not expect that at all. I am really worried and anxious about leaving my family behind."},
+      {"speaker":"Manager","text":"We completely understand it is a significant decision. Please take your time to think it through."},
+      {"speaker":"Alice",  "text":"I appreciate your understanding but honestly right now I feel very uncertain and anxious about this."}
+    ]
+  },
+  {
+    "title": "Friendship Betrayal",
+    "utterances": [
+      {"speaker":"Sam",   "text":"Hey, I really need to talk to you about something very serious that happened."},
+      {"speaker":"Jordan","text":"Of course, what is going on? You look upset."},
+      {"speaker":"Sam",   "text":"I heard from multiple people that you shared my personal secret with the entire group."},
+      {"speaker":"Jordan","text":"I only mentioned it once casually. I honestly did not think it was such a big deal."},
+      {"speaker":"Sam",   "text":"Not a big deal? I trusted you completely with something deeply private. I am so angry and hurt right now."},
+      {"speaker":"Jordan","text":"I am truly sorry Sam. I should never have said anything, I deeply regret it."},
+      {"speaker":"Sam",   "text":"Sorry does not undo the fact that everyone now knows something very personal about me."},
+      {"speaker":"Jordan","text":"You are absolutely right. I feel terrible about what I did to you."},
+      {"speaker":"Sam",   "text":"I just feel so completely betrayed. I never ever thought you would do something like this to me."}
+    ]
+  },
+  {
+    "title": "Surprise Birthday Party",
+    "utterances": [
+      {"speaker":"Leo",  "text":"Hey can everyone please gather in the main hall? I have something important to announce."},
+      {"speaker":"Maya", "text":"What is happening? You are being very mysterious and secretive today Leo."},
+      {"speaker":"Leo",  "text":"Nothing special, just come along with me please."},
+      {"speaker":"Maya", "text":"Okay fine, I am coming."},
+      {"speaker":"Crowd","text":"SURPRISE! Happy Birthday Maya! We love you so much!"},
+      {"speaker":"Maya", "text":"Oh my goodness! I absolutely cannot believe this! I am completely shocked and so overwhelmed right now!"},
+      {"speaker":"Leo",  "text":"We secretly planned every detail of this for three full weeks without you finding out even once."},
+      {"speaker":"Maya", "text":"I had absolutely no idea whatsoever. I feel so incredibly touched that you all did this for me. I feel loved!"},
+      {"speaker":"Leo",  "text":"We did all of this because you always give so much of yourself to everyone else around you."},
+      {"speaker":"Maya", "text":"I am honestly going to cry now. This is the most wonderful and thoughtful thing anyone has ever done for me."}
+    ]
+  },
+  {
+    "title": "Exam Results Conversation",
+    "utterances": [
+      {"speaker":"Priya","text":"The final exam results have just been posted online. Have you checked yours yet?"},
+      {"speaker":"Ravi", "text":"Not yet honestly. I am terrified to look at them after how the exam went."},
+      {"speaker":"Priya","text":"I just checked mine and I actually passed with a distinction! I am so incredibly happy and relieved!"},
+      {"speaker":"Ravi", "text":"That is absolutely amazing Priya! You worked so incredibly hard for this and you truly deserved it."},
+      {"speaker":"Priya","text":"Thank you so much! Now please go check yours right away, I am confident you did well too."},
+      {"speaker":"Ravi", "text":"I just checked and I failed the paper by only two marks. I cannot believe it."},
+      {"speaker":"Priya","text":"Oh no Ravi, I am so genuinely sorry to hear that happened to you."},
+      {"speaker":"Ravi", "text":"I studied day and night and gave everything I had. I feel completely devastated and so hopeless right now."},
+      {"speaker":"Priya","text":"Please do not give up. You should definitely apply for re-evaluation of your paper."},
+      {"speaker":"Ravi", "text":"I know you are right, but knowing I was only two marks away makes the pain even more unbearable for me."}
+    ]
+  },
+  {
+    "title": "Workplace Injustice",
+    "utterances": [
+      {"speaker":"Tom", "text":"I just noticed that my name was completely left out of the project credits in the final report."},
+      {"speaker":"Nina","text":"The manager made a decision that only the project leads would receive formal credits this time around."},
+      {"speaker":"Tom", "text":"But I personally contributed more than half of all the code written for this entire project."},
+      {"speaker":"Nina","text":"I know that and I did raise your name and contributions with management. But the decision was already final."},
+      {"speaker":"Tom", "text":"I am absolutely furious about this. It is completely unfair and deeply disrespectful towards my work."},
+      {"speaker":"Nina","text":"I completely understand your frustration Tom. I honestly would feel exactly the same way if I were you."},
+      {"speaker":"Tom", "text":"I am seriously considering whether I even want to continue working here because of how this was handled."},
+      {"speaker":"Nina","text":"Please do not make a hasty decision you might regret. Let us escalate this issue together through proper channels."},
+      {"speaker":"Tom", "text":"Fine, but if absolutely nothing changes after this, I will be deeply disappointed and I may have to leave."}
+    ]
+  },
+  {
+    "title": "Medical Diagnosis",
+    "utterances": [
+      {"speaker":"Doctor", "text":"I have thoroughly reviewed all your test results and I need to have a serious discussion with you about them."},
+      {"speaker":"Patient","text":"Of course doctor, please tell me everything you found. I want to know the complete truth."},
+      {"speaker":"Doctor", "text":"The scans have revealed a small tumour. The good news is that it appears to be in the very early stage and is highly treatable."},
+      {"speaker":"Patient","text":"A tumour? I was not at all prepared to hear that word. I am absolutely terrified right now."},
+      {"speaker":"Doctor", "text":"I completely understand your fear. However when caught this early the treatment success rate is well above ninety percent."},
+      {"speaker":"Patient","text":"That is somewhat reassuring to hear, but I am still very frightened about what the surgery and treatment will involve."},
+      {"speaker":"Doctor", "text":"We will carefully walk you through every single step of the process together. You will not be alone in facing this."},
+      {"speaker":"Patient","text":"Thank you so much for saying that. I feel a little less scared now hearing those words, though I am still quite anxious."},
+      {"speaker":"Doctor", "text":"That feeling is completely normal and expected. Let us schedule all the next steps at a pace that feels comfortable for you."},
+      {"speaker":"Patient","text":"I am truly grateful for your support and compassion. I just really hope and pray that everything goes well."}
+    ]
+  },
+  {
+    "title": "Long Distance Relationship",
+    "utterances": [
+      {"speaker":"Aisha","text":"I miss you so deeply. It has now been three full months since we were last together in the same place."},
+      {"speaker":"David","text":"I miss you too more than words can express. This distance between us is really taking a very hard toll on me."},
+      {"speaker":"Aisha","text":"I feel incredibly lonely every single time I come home to this empty apartment by myself."},
+      {"speaker":"David","text":"I know exactly how you feel. I hate that I cannot be physically present there to support and comfort you."},
+      {"speaker":"Aisha","text":"Sometimes I find myself genuinely wondering whether this distance is slowly and silently breaking us apart."},
+      {"speaker":"David","text":"Please do not say that. You are literally the very reason I keep pushing forward and going every single day."},
+      {"speaker":"Aisha","text":"Really? Hearing you say that makes me feel so much better and more at ease right now."},
+      {"speaker":"David","text":"I have actually been carefully saving up for months now. I am planning to visit you next month as a big surprise."},
+      {"speaker":"Aisha","text":"Oh my goodness are you being serious right now?! I am so unbelievably excited I feel like I could scream with joy!"},
+      {"speaker":"David","text":"One hundred percent serious. I simply could not bear hearing the sadness and loneliness in your voice anymore."},
+      {"speaker":"Aisha","text":"You have absolutely no idea just how incredibly happy this makes me feel. I love you so very much."}
+    ]
+  },
+  {
+    "title": "Argument Over a Lie",
+    "utterances": [
+      {"speaker":"Chris","text":"Where were you last night? You told me directly that you were staying late at the office to work."},
+      {"speaker":"Alex", "text":"I was actually out spending time with some friends. I know I should have been honest and told you the truth."},
+      {"speaker":"Chris","text":"You looked me right in the eyes and lied to my face. How could you possibly do that to me?"},
+      {"speaker":"Alex", "text":"I was honestly afraid that if I told you the truth you would get upset and angry about it."},
+      {"speaker":"Chris","text":"I am not upset about you going out with friends at all. I am absolutely disgusted that you chose to lie to me directly."},
+      {"speaker":"Alex", "text":"You are completely right and there is truly no excuse whatsoever for what I did. I lied and that was wrong."},
+      {"speaker":"Chris","text":"Every time I think about you looking me in the eyes and lying I just feel genuinely sick to my stomach."},
+      {"speaker":"Alex", "text":"I genuinely regret it more than I can say. I absolutely hate that I made you feel this way because of my cowardice."},
+      {"speaker":"Chris","text":"I need some time completely alone to properly process all of this. I am just so deeply and profoundly disappointed in you."}
+    ]
+  }
+]

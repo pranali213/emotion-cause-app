@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block title %}About — ECPE AI Lab{% endblock %}
+{% block topbar_title %}About{% endblock %}
+
+{% block content %}
+
+<!-- Hero -->
+<div class="hero-banner" style="margin-bottom:28px">
+  <div class="hero-text">
+    <h1 class="hero-title">ECPE AI Lab</h1>
+    <p class="hero-sub">An AI-powered web application for <strong>Emotion-Cause Pair Extraction</strong> from multi-turn conversations. The system automatically detects the emotion expressed in each utterance and traces back the utterance that caused it.</p>
+  </div>
+  <div style="font-size:4rem;display:flex;align-items:center;justify-content:center;min-width:100px">🧠</div>
+</div>
+
+<!-- What it does -->
+<div class="card mb-5">
+  <div class="card-header">
+    <h2 class="card-title">💡 What It Does</h2>
+  </div>
+  <div class="card-body">
+    <p style="color:var(--text);line-height:1.7;margin-bottom:14px">
+      Given a conversation between two or more speakers, ECPE AI Lab performs two tasks simultaneously:
+    </p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="background:var(--surface2);border-radius:var(--radius);padding:18px">
+        <div style="font-size:1.6rem;margin-bottom:8px">🎭</div>
+        <strong style="color:var(--text)">Emotion Detection</strong>
+        <p style="color:var(--muted);font-size:.88rem;margin-top:6px;line-height:1.6">
+          Classifies each utterance into one of seven emotion categories: Joy, Sadness, Anger, Fear, Surprise, Disgust, or Neutral — with a confidence score.
+        </p>
+      </div>
+      <div style="background:var(--surface2);border-radius:var(--radius);padding:18px">
+        <div style="font-size:1.6rem;margin-bottom:8px">🔗</div>
+        <strong style="color:var(--text)">Cause Extraction</strong>
+        <p style="color:var(--muted);font-size:.88rem;margin-top:6px;line-height:1.6">
+          Identifies the prior utterance that triggered each emotional reaction, extracting the specific cause span and explaining the reasoning.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ML Models used -->
+<div class="card mb-5">
+  <div class="card-header">
+    <h2 class="card-title">🤖 ML Models Used</h2>
+    <p class="card-subtitle">Four classifiers run in parallel on every prediction</p>
+  </div>
+  <div class="card-body">
+    <div class="algo-cards-grid">
+      <div class="algo-card lr-card">
+        <div class="algo-card-icon">📐</div>
+        <h3 class="algo-card-title">Logistic Regression</h3>
+        <p class="algo-card-desc">Linear probabilistic classifier using softmax over TF-IDF + lexicon features. Fast and interpretable.</p>
+        <div class="algo-card-tags"><span>Linear</span><span>Probabilistic</span></div>
+      </div>
+      <div class="algo-card svm-card">
+        <div class="algo-card-icon">✂️</div>
+        <h3 class="algo-card-title">Support Vector Machine</h3>
+        <p class="algo-card-desc">Maximum-margin hyperplane classifier in high-dimensional TF-IDF feature space. Strong on text tasks.</p>
+        <div class="algo-card-tags"><span>Max-Margin</span><span>LinearSVC</span></div>
+      </div>
+      <div class="algo-card nb-card">
+        <div class="algo-card-icon">🎲</div>
+        <h3 class="algo-card-title">Naive Bayes</h3>
+        <p class="algo-card-desc">Multinomial Naive Bayes using word frequency distributions per emotion class. Extremely fast.</p>
+        <div class="algo-card-tags"><span>Probabilistic</span><span>Fast</span></div>
+      </div>
+      <div class="algo-card rf-card">
+        <div class="algo-card-icon">🌲</div>
+        <h3 class="algo-card-title">Random Forest</h3>
+        <p class="algo-card-desc">Ensemble of 200 decision trees capturing non-linear interactions between TF-IDF and lexicon features.</p>
+        <div class="algo-card-tags"><span>Ensemble</span><span>200 Trees</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Tech stack -->
+<div class="card mb-5">
+  <div class="card-header">
+    <h2 class="card-title">🛠️ Tech Stack</h2>
+  </div>
+  <div class="card-body">
+    <div style="display:flex;flex-wrap:wrap;gap:10px">
+      {% for item in [
+        ('🐍','Python 3','Backend language'),
+        ('🌶️','Flask','Web framework'),
+        ('📊','scikit-learn','ML & NLP'),
+        ('🔢','NumPy / SciPy','Numerical computing'),
+        ('🗄️','SQLite','Database'),
+        ('🎨','Chart.js','Data visualisation'),
+      ] %}
+      <div style="background:var(--surface2);border-radius:var(--radius);padding:12px 16px;display:flex;align-items:center;gap:10px;min-width:160px">
+        <span style="font-size:1.3rem">{{ item[0] }}</span>
+        <div>
+          <div style="color:var(--text);font-weight:600;font-size:.9rem">{{ item[1] }}</div>
+          <div style="color:var(--muted);font-size:.78rem">{{ item[2] }}</div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- Emotions supported -->
+<div class="card mb-5">
+  <div class="card-header">
+    <h2 class="card-title">🎭 Supported Emotions</h2>
+  </div>
+  <div class="card-body">
+    <div style="display:flex;flex-wrap:wrap;gap:10px">
+      <span style="background:#F59E0B18;color:#F59E0B;border:1px solid #F59E0B40;border-radius:20px;padding:6px 14px;font-size:.88rem;font-weight:600">😊 Joy</span>
+      <span style="background:#3B82F618;color:#3B82F6;border:1px solid #3B82F640;border-radius:20px;padding:6px 14px;font-size:.88rem;font-weight:600">😢 Sadness</span>
+      <span style="background:#EF444418;color:#EF4444;border:1px solid #EF444440;border-radius:20px;padding:6px 14px;font-size:.88rem;font-weight:600">😠 Anger</span>
+      <span style="background:#8B5CF618;color:#8B5CF6;border:1px solid #8B5CF640;border-radius:20px;padding:6px 14px;font-size:.88rem;font-weight:600">😨 Fear</span>
+      <span style="background:#10B98118;color:#10B981;border:1px solid #10B98140;border-radius:20px;padding:6px 14px;font-size:.88rem;font-weight:600">😲 Surprise</span>
+      <span style="background:#6B728018;color:#6B7280;border:1px solid #6B728040;border-radius:20px;padding:6px 14px;font-size:.88rem;font-weight:600">🤢 Disgust</span>
+      <span style="background:#94A3B818;color:#94A3B8;border:1px solid #94A3B840;border-radius:20px;padding:6px 14px;font-size:.88rem;font-weight:600">😐 Neutral</span>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

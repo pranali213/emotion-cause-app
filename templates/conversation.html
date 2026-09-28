@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+{% block title %}{{ conv.title }} — ECPE AI Lab{% endblock %}
+{% block topbar_title %}
+  <span id="convTitleDisplay">{{ conv.title }}</span>
+  <button class="icon-btn ml-2" id="btnRename" title="Rename">✏️</button>
+{% endblock %}
+{% block topbar_actions %}
+  <a href="{{ url_for('index') }}" class="btn btn-ghost btn-sm">← Back</a>
+  <select id="modelSelect" class="input" style="width:180px;padding:6px 10px">
+    {% for m in model_names %}
+    <option value="{{ m }}" {% if m == active_model %}selected{% endif %}>{{ m }}</option>
+    {% endfor %}
+  </select>
+  <button class="btn btn-primary" id="btnAnalyse">🤖 Run Analysis</button>
+{% endblock %}
+
+{% block content %}
+<div class="conv-layout">
+
+  <!-- ── LEFT: Dialogue ──────────────────────────────────── -->
+  <section class="panel" id="panelDialogue">
+    <div class="panel-header">
+      <h2 class="panel-title">Dialogue</h2>
+      <span class="badge-pill badge-neutral" id="uttCountBadge">{{ utterances|length }} turns</span>
+    </div>
+
+    <div class="dialogue-scroll" id="dialogueScroll">
+      <div id="dialogueList" class="dialogue-list">
+        {% for u in utterances %}
+        <div class="utt-row {% if u.turn_index % 2 == 0 %}utt-left{% else %}utt-right{% endif %}"
+             data-id="{{ u.id }}" data-turn="{{ u.turn_index }}">
+          <div class="utt-avatar" style="--av:{{ loop.index0 % 8 }}">{{ u.speaker[0].upper() }}</div>
+          <div class="utt-bubble">
+            <div class="utt-meta">
+              <span class="utt-speaker">{{ u.speaker }}</span>
+              <span class="utt-turn">T{{ u.turn_index + 1 }}</span>
+            </div>
+            <p class="utt-text" id="uttText{{ u.id }}">{{ u.text }}</p>
+            <div class="utt-footer" id="uttFooter{{ u.id }}">
+              {% if u.emotion and u.emotion != 'neutral' %}
+              <span class="emo-badge"
+                    style="background:{{ emotion_meta[u.emotion].color }}18;color:{{ emotion_meta[u.emotion].color }};border-color:{{ emotion_meta[u.emotion].color }}40">
+                {{ emotion_meta[u.emotion].icon }} {{ u.emotion|capitalize }}
+                <small>{{ (u.confidence * 100)|int }}%</small>
+              </span>
+              {% endif %}
+            </div>
+          </div>
+          <div class="utt-actions">
+            <button class="icon-btn edit-btn" data-id="{{ u.id }}" title="Edit">✏️</button>
+            <button class="icon-btn danger del-btn"  data-id="{{ u.id }}" title="Delete">🗑</button>
+          </div>
+        </div>
+        {% else %}
+        <div class="empty-dialogue" id="emptyDialogue">
+          <p>No turns yet. Add the first utterance below.</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Add turn form -->
+    <div class="add-utt-form">
+      <input    id="newSpeaker" class="input" style="max-width:100px" placeholder="Speaker" value="Alice"/>
+      <textarea id="newText"   class="input textarea" rows="2" placeholder="Type utterance…"></textarea>
+      <button   class="btn btn-secondary" id="btnAddUtt">＋ Add</button>
+    </div>
+  </section>
+
+  <!-- ── RIGHT: Results ──────────────────────────────────── -->
+  <section class="panel" id="panelResults">
+
+    <!-- stat strip -->
+    <div class="stats-strip">
+      <div class="stat-box">
+        <span class="stat-num" id="statTurns">{{ utterances|length }}</span>
+        <span class="stat-label">Turns</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num" id="statPairs">{{ pairs|length }}</span>
+        <span class="stat-label">EC Pairs</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num" id="statModel">—</span>
+        <span class="stat-label">Model</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num" id="statF1">—</span>
+        <span class="stat-label">Model F1</span>
+      </div>
+    </div>
+
+    <!-- tabs -->
+    <div class="result-tabs">
+      <button class="rtab active" data-tab="pairs">EC Pairs</button>
+      <button class="rtab" data-tab="trend">Trend</button>
+      <button class="rtab" data-tab="dist">Distribution</button>
+    </div>
+
+    <!-- tab: EC Pairs -->
+    <div class="rtab-pane active" id="tabPairs">
+      {% if pairs %}
+        {% for p in pairs %}
+        <div class="pair-card">
+          <div class="pair-header">
+            <span class="pair-emo-badge" style="background:{{ emotion_meta[p.emotion].color }}18;color:{{ emotion_meta[p.emotion].color }};border-color:{{ emotion_meta[p.emotion].color }}35">
+              {{ emotion_meta[p.emotion].icon }} {{ p.emotion|capitalize }}
+            </span>
+            <span class="conf-bar-wrap">
+              <span class="conf-bar-fill" style="width:{{ (p.confidence*100)|int }}%;background:{{ emotion_meta[p.emotion].color }}"></span>
+            </span>
+            <span class="pair-conf-text">{{ (p.confidence*100)|int }}%</span>
+          </div>
+          <div class="pair-body">
+            <div class="pair-block emo-block">
+              <span class="pb-label">😤 Emotion · T{{ p.etn + 1 }} · {{ p.emotion_speaker }}</span>
+              <p class="pb-text">{{ p.emotion_text }}</p>
+            </div>
+            <div class="pair-arrow">↑ caused by</div>
+            <div class="pair-block cause-block">
+              <span class="pb-label">💡 Cause · T{{ p.ctn + 1 }} · {{ p.cause_speaker }}</span>
+              <p class="pb-text">{{ p.cause_text }}</p>
+              {% if p.cause_span %}
+              <span class="cause-span-tag">"{{ p.cause_span }}"</span>
+              {% endif %}
+            </div>
+          </div>
+          <p class="pair-explain">ℹ {{ p.explanation }}</p>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="empty-pairs" id="emptyPairs">
+          <div class="empty-icon">🔍</div>
+          <p>Run analysis to extract emotion-cause pairs.</p>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- tab: Trend -->
+    <div class="rtab-pane" id="tabTrend">
+      <div class="trend-chart-wrap">
+        <canvas id="trendChart" height="220"></canvas>
+      </div>
+      <div class="trend-legend" id="trendLegend"></div>
+    </div>
+
+    <!-- tab: Distribution -->
+    <div class="rtab-pane" id="tabDist">
+      <div class="dist-chart-wrap">
+        <canvas id="distChart" height="220"></canvas>
+      </div>
+      <div id="distBars" class="dist-bars"></div>
+    </div>
+
+  </section>
+</div>
+
+<!-- Edit Utterance Modal -->
+<div class="modal-overlay hidden" id="modalEditUtt">
+  <div class="modal">
+    <div class="modal-header"><h3>Edit Utterance</h3><button class="icon-btn" id="closeEditUtt">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="editUttId"/>
+      <label class="label">Speaker</label>
+      <input id="editSpeaker" class="input mb-3"/>
+      <label class="label">Text</label>
+      <textarea id="editText" class="input textarea" rows="4"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost"   id="cancelEditUtt">Cancel</button>
+      <button class="btn btn-primary" id="saveEditUtt">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Rename Modal -->
+<div class="modal-overlay hidden" id="modalRename">
+  <div class="modal">
+    <div class="modal-header"><h3>Rename Conversation</h3><button class="icon-btn" id="closeRename">✕</button></div>
+    <div class="modal-body">
+      <input id="renameInput" class="input" placeholder="New title…"/>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost"   id="cancelRename">Cancel</button>
+      <button class="btn btn-primary" id="saveRename">Rename</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  window.CONV_ID      = {{ conv.id }};
+  window.CONV_TITLE   = {{ conv.title | tojson }};
+  window.ACTIVE_MODEL = {{ active_model | tojson }};
+</script>
+{% endblock %}
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="{{ url_for('static', filename='js/conversation.js') }}"></script>
+{% endblock %}

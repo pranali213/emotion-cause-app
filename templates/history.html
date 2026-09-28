@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Run History — ECPE AI Lab{% endblock %}
+{% block topbar_title %}Analysis Run History{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <h2 class="card-title">🕐 All Analysis Runs</h2>
+    <p class="card-subtitle">Every time a conversation was analysed with an ML model</p>
+  </div>
+  <div class="card-body p-0">
+    {% if runs %}
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>#</th><th>Conversation</th><th>Model</th>
+            <th>Pairs Found</th><th>Accuracy</th><th>F1 Score</th><th>Ran At</th><th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in runs %}
+          <tr>
+            <td class="muted-text">{{ r.id }}</td>
+            <td><strong>{{ r.title }}</strong></td>
+            <td><code class="code-tag">{{ r.model_used }}</code></td>
+            <td>
+              <span class="badge-pill {% if r.pairs_found > 0 %}badge-success{% else %}badge-neutral{% endif %}">
+                {{ r.pairs_found }} pair{{ 's' if r.pairs_found != 1 }}
+              </span>
+            </td>
+            <td>
+              <div class="metric-cell">
+                <span class="metric-val">{{ (r.accuracy*100)|round(1) }}%</span>
+                <div class="mini-bar"><div class="mini-fill" data-width="{{ (r.accuracy*100)|round(1) }}" data-color="#6366f1"></div></div>
+              </div>
+            </td>
+            <td>
+              <div class="metric-cell">
+                <span class="metric-val">{{ (r.f1_score*100)|round(1) }}%</span>
+                <div class="mini-bar"><div class="mini-fill" data-width="{{ (r.f1_score*100)|round(1) }}" data-color="#10b981"></div></div>
+              </div>
+            </td>
+            <td class="muted-text">{{ r.ran_at[:16].replace('T',' ') }}</td>
+            <td><a href="{{ url_for('conversation_view', conv_id=r.conversation_id) }}" class="btn btn-ghost btn-sm">View →</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="empty-state" style="border:none">
+      <div class="empty-icon">🕐</div>
+      <p class="empty-text">No analysis runs yet. Open a conversation and click Run Analysis.</p>
+      <a href="{{ url_for('index') }}" class="btn btn-primary mt-3">Go to Conversations</a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

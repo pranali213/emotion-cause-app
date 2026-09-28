@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}ECPE AI Lab{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  {% block head %}{% endblock %}
+
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+</head>
+<body>
+
+<!-- ── Sidebar ───────────────────────────────────────────────── -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-logo">🧠</div>
+    <div>
+      <div class="brand-name">ECPE AI Lab</div>
+      <div class="brand-sub">Emotion-Cause Analysis</div>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <!-- USER section -->
+    <div class="nav-section-label">User</div>
+    <a href="{{ url_for('index') }}"
+       class="nav-item {% if request.endpoint=='index' %}active{% endif %}">
+      <span class="nav-icon">💬</span><span>Conversations</span>
+    </a>
+    </a>
+    <a href="{{ url_for('history') }}"
+       class="nav-item {% if request.endpoint=='history' %}active{% endif %}">
+      <span class="nav-icon">🕐</span><span>Run History</span>
+    </a>
+    <a href="{{ url_for('about') }}"
+       class="nav-item {% if request.endpoint=='about' %}active{% endif %}">
+      <span class="nav-icon">ℹ️</span><span>About</span>
+    </a>
+
+
+  </nav>
+
+  <div class="sidebar-models-strip">
+    <div class="sidebar-models-title">Active Models</div>
+    <div class="model-dot-row">
+      <span class="model-dot lr">LR</span>
+      <span class="model-dot svm">SVM</span>
+      <span class="model-dot nb">NB</span>
+      <span class="model-dot rf">RF</span>
+    </div>
+  </div>
+</aside>
+
+<!-- ── Main ─────────────────────────────────────────────────── -->
+<div class="layout-main" id="layoutMain">
+  <header class="topbar">
+    <button class="hamburger" id="hamburger">&#9776;</button>
+    <div class="topbar-center">
+      <span class="topbar-title">{% block topbar_title %}AI-Powered Emotion-Cause Extraction{% endblock %}</span>
+    </div>
+    <div class="topbar-right">{% block topbar_actions %}{% endblock %}</div>
+  </header>
+
+  <div class="page-body">
+    {% block content %}{% endblock %}
+  </div>
+</div>
+
+<!-- Toast container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>
