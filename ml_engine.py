@@ -376,7 +376,7 @@ def lexicon_feature_vector(text: str) -> List[float]:
 # ─────────────────────────────────────────────────────────────────────────────
 def _fresh_models() -> Dict:
     return {
-        "Logistic Regression": LogisticRegression(max_iter=1000, C=1.0, solver="lbfgs", multi_class="multinomial"),
+        "Logistic Regression": LogisticRegression( max_iter=1000, C=1.0, solver="lbfgs"),
         "SVM":                 LinearSVC(max_iter=2000, C=1.0),
         "Naive Bayes":         MultinomialNB(alpha=0.5),
         "Random Forest":       RandomForestClassifier(n_estimators=200, max_depth=12, random_state=42),
